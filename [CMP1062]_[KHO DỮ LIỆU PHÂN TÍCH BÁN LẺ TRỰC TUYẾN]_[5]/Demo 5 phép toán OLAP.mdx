@@ -1,0 +1,44 @@
+﻿--doanh thu của từng Region qua các năm (Year).
+SELECT 
+    [Dim Date].[Year].MEMBERS ON COLUMNS,
+    [Dim Country].[Region].MEMBERS ON ROWS
+FROM [Online Retail DW]
+WHERE ([Measures].[Sales Amount]);
+
+
+-- Roll-up (Tổng hợp lên cao)
+SELECT [Measures].[Sales Amount] ON COLUMNS,
+[Dim Date].[Year].MEMBERS ON ROWS
+FROM [Online Retail DW];
+
+--Drill-down
+SELECT 
+    [Measures].[Sales Amount] ON COLUMNS,
+    [Dim Country].[Location].MEMBERS ON ROWS
+FROM [Online Retail DW];
+
+--Slice
+SELECT [Measures].[Sales Amount] ON COLUMNS,
+[Dim Date].[Year].MEMBERS ON ROWS
+FROM [Online Retail DW]
+WHERE ([Dim Country].[Country].&[France]);
+
+--Dice 
+SELECT [Measures].[Sales Amount] ON COLUMNS,
+[Dim Product].[Product Name].MEMBERS ON ROWS
+FROM [Online Retail DW]
+WHERE ([Dim Country].[Country].&[United Kingdom], [Dim Date].[Year].&[2011]);
+
+-- PIVOT: Trạng thái ban đầu (Year trên Columns, Continent trên Rows)
+SELECT 
+    [Dim Date].[Year].MEMBERS ON COLUMNS,
+    [Dim Country].[Region].MEMBERS ON ROWS
+FROM [Online Retail DW]
+WHERE ([Measures].[Sales Amount]);
+
+-- PIVOT: Trạng thái sau khi xoay (Continent lên Columns, Year xuống Rows)
+SELECT 
+    [Dim Country].[Region].MEMBERS ON COLUMNS,
+    [Dim Date].[Year].MEMBERS ON ROWS
+FROM [Online Retail DW]
+WHERE ([Measures].[Sales Amount]);

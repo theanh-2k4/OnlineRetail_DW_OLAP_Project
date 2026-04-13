@@ -1,0 +1,39 @@
+﻿-- Truy vấn 1: Tổng hợp doanh thu và số lượng theo Châu lục (Tổng hợp)
+SELECT 
+    { [Measures].[Sales Amount], [Measures].[Quantity] } ON COLUMNS,
+    [Dim Country].[Region].MEMBERS ON ROWS
+FROM [Online Retail DW];
+
+-- Truy vấn 2: Xu hướng doanh thu theo các tháng trong năm 2011
+SELECT 
+    [Measures].[Sales Amount] ON COLUMNS,
+    [Dim Date].[Month].MEMBERS ON ROWS
+FROM [Online Retail DW]
+WHERE ([Dim Date].[Year].&[2011]);
+
+-- Truy vấn 3: Top 10 khách hàng mang lại lợi nhuận cao nhất
+SELECT 
+    [Measures].[Profit Estimate] ON COLUMNS,
+    TOPCOUNT(
+        [Dim Customer].[Customer ID].MEMBERS, 
+        10, 
+        [Measures].[Profit Estimate]
+    ) ON ROWS
+FROM [Online Retail DW];
+
+-- Truy vấn 4: Phân tích doanh thu theo từng mặt hàng tại thị trường UK
+SELECT 
+    [Measures].[Sales Amount] ON COLUMNS,
+    NON EMPTY [Dim Product].[Product Name].MEMBERS ON ROWS
+FROM [Online Retail DW]
+WHERE ([Dim Country].[Country].&[United Kingdom]);
+
+-- Truy vấn 5: Phân tích số lượng trả hàng (Return) theo quốc gia
+SELECT 
+    [Measures].[Fact Return Count] ON COLUMNS,
+    ORDER(
+        [Dim Country].[Country].MEMBERS, 
+        [Measures].[Fact Return Count], 
+        DESC
+    ) ON ROWS
+FROM [Online Retail DW];

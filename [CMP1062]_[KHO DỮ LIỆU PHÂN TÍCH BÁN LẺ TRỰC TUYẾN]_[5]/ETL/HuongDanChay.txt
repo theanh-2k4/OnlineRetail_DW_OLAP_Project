@@ -1,0 +1,6 @@
+Country_Mapping tạo file country_mapping
+Chạy lần lượt các file:
+1. OnlineRetailDWStage
+2. Extract
+3. Transform
+4. OnlineRetail_DW_ETL.slnx
